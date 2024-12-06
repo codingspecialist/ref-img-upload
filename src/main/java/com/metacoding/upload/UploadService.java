@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.UUID;
 
 @Transactional(readOnly = true)
@@ -23,7 +24,14 @@ public class UploadService {
         uploadRepository.save(v1DTO.toEntity(dbUrl));
     }
 
-    public Upload v1사진보기() {
+    public Upload 사진보기() {
         return uploadRepository.findById(1);
+    }
+
+
+    @Transactional
+    public void v2사진저장(UploadRequest.V2DTO v2DTO) {
+        String profileUrl = MyFileUtil.fileSave(v2DTO.getImg());
+        uploadRepository.save(v2DTO.toEntity(profileUrl));
     }
 }
